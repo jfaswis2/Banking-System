@@ -1,7 +1,8 @@
-package com.example.bankingsystem.entities.controllers;
+package com.example.bankingsystem.controllers;
 
 import com.example.bankingsystem.services.dto.UserInDTO;
 import com.example.bankingsystem.services.impl.UserServiceImpl;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ public class UserController {
     private final UserServiceImpl userService;
 
     @PostMapping("/user")
-    public ResponseEntity<?> createUser(@RequestBody UserInDTO userInDTO) {
+    public ResponseEntity<?> createUser(@RequestBody @Valid UserInDTO userInDTO) {
         return userService.createUser(userInDTO);
     }
 

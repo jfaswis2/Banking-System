@@ -1,9 +1,6 @@
 package com.example.bankingsystem.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -18,25 +15,21 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotEmpty(message = "El nombre no debe ser nulo ni estar vacío.")
+    @Column(name = "name")
     private String name;
-    @NotEmpty(message = "El apellido no debe ser nulo ni estar vacío.")
+    @Column(name = "last_name")
     private String lastName;
-    @NotEmpty(message = "El apellido no debe ser nulo ni estar vacío.")
-    @Email(
-            regexp = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$",
-            message = "No es un email válido")
+    @Column(name = "email", unique = true)
     private String email;
-    @Pattern(regexp = "^(0[1-9]|[1-9][0-9])\\\\d{7}[A-Za-z]$", message = "No es un DNI válido")
-    @NotEmpty(message = "El DNI no debe ser nulo ni estar vacío.")
+    @Column(name = "dni", unique = true)
     private String dni;
-    @NotEmpty(message = "La contraseña no debe ser nula ni estar vacía.")
+    @Column(name = "password")
     private String password;
-    @NotEmpty(message = "La fecha de nacimiento no debe ser nula ni estar vacía.")
+    @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
-    @NotEmpty
+    @Column(name = "creation_date")
     private LocalDate creationDate;
-    @NotNull
+    @Column(name = "deleted")
     private boolean deleted;
 
     public User(Long id, String name, String lastName, String email, String dni, String password, LocalDate dateOfBirth, LocalDate creationDate, boolean deleted) {

@@ -2,6 +2,7 @@ package com.example.bankingsystem.services.impl;
 
 import com.example.bankingsystem.entities.User;
 import com.example.bankingsystem.exception.ResourceNotFoundException;
+import com.example.bankingsystem.mapper.UserInDTOToUser;
 import com.example.bankingsystem.repositories.UserRepository;
 import com.example.bankingsystem.services.UserService;
 import com.example.bankingsystem.services.dto.UserInDTO;
@@ -16,10 +17,21 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final UserInDTOToUser userInDTOToUser;
 
     @Override
     public ResponseEntity<User> createUser(UserInDTO userInDTO) {
-        return null;
+
+        if (userRepository.findByDni(userInDTO.getDni()).isPresent()) {
+
+        }
+
+        if (userRepository.findByEmail(userInDTO.getEmail()).isPresent()) {
+
+        }
+
+
+        return ResponseEntity.ok(userRepository.save(userInDTOToUser.map(userInDTO)));
     }
 
     @Override

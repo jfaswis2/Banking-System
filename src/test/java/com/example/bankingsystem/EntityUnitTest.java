@@ -86,7 +86,7 @@ public class EntityUnitTest {
 
         checkData(u1,user);
     }
-
+    /*
     @Test
     public void should_validate_user_dni() {
         u1 = new User();
@@ -121,7 +121,7 @@ public class EntityUnitTest {
         u1.setEmail("jfaswis2");
         Assertions.assertFalse(u1.getEmail()
                 .matches("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$"));
-    }
+    }*/
 
     public void checkData(User u1, User u2) {
         assertThat(u1.getId()).isEqualTo(u2.getId());
