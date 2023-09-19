@@ -1,6 +1,7 @@
 package com.example.bankingsystem.services.impl;
 
 import com.example.bankingsystem.entities.User;
+import com.example.bankingsystem.exception.ResourceConflictException;
 import com.example.bankingsystem.exception.ResourceNotFoundException;
 import com.example.bankingsystem.mapper.UserInDTOToUser;
 import com.example.bankingsystem.repositories.UserRepository;
@@ -23,14 +24,12 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<User> createUser(UserInDTO userInDTO) {
 
         if (userRepository.findByDni(userInDTO.getDni()).isPresent()) {
-
+            throw new ResourceConflictException(String.format("El DNI: %s ya está registrado en el sistema", userInDTO.getDni()));
         }
 
         if (userRepository.findByEmail(userInDTO.getEmail()).isPresent()) {
-
+            throw new ResourceConflictException(String.format("El email: %s ya está registrado en el sistema", userInDTO.getEmail()));
         }
-
-
         return ResponseEntity.ok(userRepository.save(userInDTOToUser.map(userInDTO)));
     }
 
