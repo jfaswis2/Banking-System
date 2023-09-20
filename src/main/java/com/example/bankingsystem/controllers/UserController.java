@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/api")
@@ -17,6 +19,16 @@ public class UserController {
     @PostMapping("/user")
     public ResponseEntity<?> createUser(@RequestBody @Valid UserInDTO userInDTO) {
         return userService.createUser(userInDTO);
+    }
+
+    @PutMapping("{userId}")
+    public void updateUser(@PathVariable("userId") Long userId,
+                           @RequestParam(required = false) String name,
+                           @RequestParam(required = false) String lastName,
+                           @RequestParam(required = false) String dni,
+                           @RequestParam(required = false) String email,
+                           @RequestParam(required = false) LocalDate dateOfBirth) {
+        userService.updateUser(userId, name, lastName, dni, email, dateOfBirth);
     }
 
     @GetMapping("/user/{id}")

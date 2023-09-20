@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -34,6 +36,57 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ResponseEntity<User> updateUser(Long userId,
+                                           String name,
+                                           String lastName,
+                                           String dni,
+                                           String email,
+                                           LocalDate dateOfBirth) {
+
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("user", "id", userId));
+
+        if (name != null &&
+                name.length() > 0 &&
+                !Objects.equals(user.getName(), name)) {
+            user.setName(name);
+        }
+
+        if (lastName != null &&
+                lastName.length() > 0 &&
+                !Objects.equals(user.getLastName(), lastName)) {
+            user.setLastName(lastName);
+        }
+
+        if (dni != null &&
+                dni.length() > 0 &&
+                !Objects.equals(user.getDni(), dni)) {
+            Optional<User> userOptional = userRepository.findByDni(dni);
+            if (userOptional.isPresent()) {
+                throw new ResourceConflictException(String.format("El dni: %s ya está registrado en el sistema", dni));
+            }
+            user.setDni(dni);
+        }
+
+        if (email != null &&
+                email.length() > 0 &&
+                !Objects.equals(user.getEmail(), email)) {
+            Optional<User> userOptional = userRepository.findByEmail(email);
+            if (userOptional.isPresent()) {
+                throw new ResourceConflictException(String.format("El email: %s ya está registrado en el sistema", email));
+            }
+            user.setEmail(email);
+        }
+
+        if (dateOfBirth != null &&
+                !dateOfBirth.isAfter(LocalDate.now()) &&
+                !Objects.equals(user.getDateOfBirth(), dateOfBirth)) {
+            user.setDateOfBirth(dateOfBirth);
+        }
+
+        return ResponseEntity.ok(user);
+    }
+
+    @Override
     public ResponseEntity<User> showById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("user", "id", id));
@@ -48,4 +101,6 @@ public class UserServiceImpl implements UserService {
         }
         return ResponseEntity.ok(users);
     }
+
+
 }
