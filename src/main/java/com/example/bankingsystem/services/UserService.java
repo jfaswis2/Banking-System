@@ -17,4 +17,5 @@ public interface UserService {
                                            String dni,
                                            String email,
                                            LocalDate dateOfBirth);
+    public ResponseEntity<?> deleteUser(Long id);
 }

@@ -8,8 +8,11 @@ import com.example.bankingsystem.repositories.UserRepository;
 import com.example.bankingsystem.services.UserService;
 import com.example.bankingsystem.services.dto.UserInDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -36,6 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<User> updateUser(Long userId,
                                            String name,
                                            String lastName,
@@ -43,7 +47,7 @@ public class UserServiceImpl implements UserService {
                                            String email,
                                            LocalDate dateOfBirth) {
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("user", "id", userId));
+        User user = userRepository.findByIdAndDeletedFalse(userId).orElseThrow(() -> new ResourceNotFoundException("user", "id", userId));
 
         if (name != null &&
                 name.length() > 0 &&
@@ -82,25 +86,33 @@ public class UserServiceImpl implements UserService {
                 !Objects.equals(user.getDateOfBirth(), dateOfBirth)) {
             user.setDateOfBirth(dateOfBirth);
         }
-
+        userRepository.save(user);
         return ResponseEntity.ok(user);
     }
 
     @Override
+    public ResponseEntity<Void> deleteUser(Long id) {
+        User user = userRepository.findByIdAndDeletedFalse(id)
+                .orElseThrow(()-> new ResourceNotFoundException("user", "id", id));
+
+        user.setDeleted(true);
+        userRepository.save(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<User> showById(Long id) {
-        User user = userRepository.findById(id)
+        User user = userRepository.findByIdAndDeletedFalse(id)
                 .orElseThrow(() -> new ResourceNotFoundException("user", "id", id));
         return ResponseEntity.ok(user);
     }
 
     @Override
     public ResponseEntity<List<User>> showALl() {
-        List<User> users = userRepository.findAll();
+        List<User> users = userRepository.findByDeletedFalse();
         if (users.isEmpty()) {
             throw new ResourceNotFoundException("users");
         }
         return ResponseEntity.ok(users);
     }
-
-
 }

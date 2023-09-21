@@ -1,5 +1,6 @@
 package com.example.bankingsystem.controllers;
 
+import com.example.bankingsystem.entities.User;
 import com.example.bankingsystem.services.dto.UserInDTO;
 import com.example.bankingsystem.services.impl.UserServiceImpl;
 import jakarta.validation.Valid;
@@ -22,13 +23,13 @@ public class UserController {
     }
 
     @PutMapping("{userId}")
-    public void updateUser(@PathVariable("userId") Long userId,
-                           @RequestParam(required = false) String name,
-                           @RequestParam(required = false) String lastName,
-                           @RequestParam(required = false) String dni,
-                           @RequestParam(required = false) String email,
-                           @RequestParam(required = false) LocalDate dateOfBirth) {
-        userService.updateUser(userId, name, lastName, dni, email, dateOfBirth);
+    public ResponseEntity<?> updateUser(@PathVariable("userId") Long userId,
+                                           @RequestParam(required = false) String name,
+                                           @RequestParam(required = false) String lastName,
+                                           @RequestParam(required = false) String dni,
+                                           @RequestParam(required = false) String email,
+                                           @RequestParam(required = false) LocalDate dateOfBirth) {
+        return userService.updateUser(userId, name, lastName, dni, email, dateOfBirth);
     }
 
     @GetMapping("/user/{id}")
