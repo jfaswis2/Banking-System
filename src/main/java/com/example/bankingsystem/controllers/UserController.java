@@ -1,6 +1,5 @@
 package com.example.bankingsystem.controllers;
 
-import com.example.bankingsystem.entities.User;
 import com.example.bankingsystem.services.dto.UserInDTO;
 import com.example.bankingsystem.services.impl.UserServiceImpl;
 import jakarta.validation.Valid;
@@ -22,7 +21,7 @@ public class UserController {
         return userService.createUser(userInDTO);
     }
 
-    @PutMapping("{userId}")
+    @PutMapping("/{userId}")
     public ResponseEntity<?> updateUser(@PathVariable("userId") Long userId,
                                            @RequestParam(required = false) String name,
                                            @RequestParam(required = false) String lastName,
@@ -37,8 +36,13 @@ public class UserController {
         return userService.showById(id);
     }
 
-    @GetMapping("users")
+    @GetMapping("/users")
     public ResponseEntity<?> showAll() {
         return userService.showALl();
+    }
+
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        return userService.deleteUser(id);
     }
 }
