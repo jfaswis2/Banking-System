@@ -30,6 +30,7 @@ public class CheckingController {
                                             @RequestParam(required = false) BigDecimal minimumBalance,
                                             @RequestParam(required = false) Status status,
                                             @RequestParam(required = false) BigDecimal monthlyMaintenanceFee) {
+
         return checkingService.updateChecking(checkingId, balance, penaltyFee, minimumBalance, status, monthlyMaintenanceFee);
     }
 
