@@ -4,7 +4,7 @@ import com.example.bankingsystem.entities.User;
 import com.example.bankingsystem.exception.ResourceConflictException;
 import com.example.bankingsystem.exception.ResourceNotFoundException;
 import com.example.bankingsystem.mapper.UserInDTOToUser;
-import com.example.bankingsystem.repositories.UserRepository;
+import com.example.bankingsystem.payload.repositories.UserRepository;
 import com.example.bankingsystem.services.UserService;
 import com.example.bankingsystem.services.dto.UserInDTO;
 import lombok.RequiredArgsConstructor;

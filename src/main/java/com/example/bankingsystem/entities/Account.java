@@ -11,9 +11,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @MappedSuperclass
-@Getter
-@Setter
-@Builder
 public abstract class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,6 +31,62 @@ public abstract class Account {
         this.minimumBalance = minimumBalance;
         this.creationDate = creationDate;
         this.status = status;
+        this.deleted = deleted;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    public BigDecimal getPenaltyFee() {
+        return penaltyFee;
+    }
+
+    public void setPenaltyFee(BigDecimal penaltyFee) {
+        this.penaltyFee = penaltyFee;
+    }
+
+    public BigDecimal getMinimumBalance() {
+        return minimumBalance;
+    }
+
+    public void setMinimumBalance(BigDecimal minimumBalance) {
+        this.minimumBalance = minimumBalance;
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
 }

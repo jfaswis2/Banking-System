@@ -18,7 +18,7 @@ public class CheckingController {
     private final CheckingServiceImpl checkingService;
 
     @PostMapping("/checking/{userId}")
-    public ResponseEntity<?> createChecking(@RequestBody @Valid CheckingInDTO checkingInDTO, @PathVariable("userId") Long userId) {
+    public ResponseEntity<?> createChecking(@RequestBody CheckingInDTO checkingInDTO, @PathVariable("userId") Long userId) {
         return checkingService.createChecking(userId, checkingInDTO);
     }
 

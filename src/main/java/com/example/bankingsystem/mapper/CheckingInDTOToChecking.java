@@ -1,6 +1,7 @@
 package com.example.bankingsystem.mapper;
 
 import com.example.bankingsystem.entities.Checking;
+import com.example.bankingsystem.entities.User;
 import com.example.bankingsystem.enums.Status;
 import com.example.bankingsystem.services.dto.CheckingInDTO;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ public class CheckingInDTOToChecking implements IMapper<CheckingInDTO, Checking>
         checking.setCreationDate(LocalDate.now());
         checking.setStatus(Status.ACTIVE);
         checking.setPenaltyFee(BigDecimal.valueOf(40L));
+        checking.setUser(new User());
         return checking;
     }
 }
