@@ -2,8 +2,6 @@ package com.example.bankingsystem.controllers;
 
 import com.example.bankingsystem.jwt.AuthResponse;
 import com.example.bankingsystem.jwt.LoginRequest;
-import com.example.bankingsystem.jwt.RegisterRequest;
-import com.example.bankingsystem.services.AuthService;
 import com.example.bankingsystem.services.dto.UserInDTO;
 import com.example.bankingsystem.services.impl.AuthServiceImpl;
 import lombok.RequiredArgsConstructor;

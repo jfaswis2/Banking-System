@@ -12,6 +12,9 @@ import com.example.bankingsystem.services.AuthService;
 import com.example.bankingsystem.services.UserService;
 import com.example.bankingsystem.services.dto.UserInDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,10 +24,18 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final UserInDTOToUser userInDTOToUser;
     private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     @Override
     public AuthResponse login(LoginRequest request) {
-        return null;
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(),
+                request.getPassword()));
+
+        UserDetails user = userRepository.findByEmail(request.getEmail()).orElseThrow();
+        String token = jwtService.getToken(user);
+        return AuthResponse.builder()
+                .token(token)
+                .build();
     }
 
     @Override
