@@ -1,4 +1,4 @@
-package com.example.bankingsystem.payload.repositories;
+package com.example.bankingsystem.repositories;
 
 import com.example.bankingsystem.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;

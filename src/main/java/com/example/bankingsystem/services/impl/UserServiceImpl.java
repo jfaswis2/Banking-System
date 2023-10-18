@@ -3,8 +3,10 @@ package com.example.bankingsystem.services.impl;
 import com.example.bankingsystem.entities.User;
 import com.example.bankingsystem.exception.ResourceConflictException;
 import com.example.bankingsystem.exception.ResourceNotFoundException;
+import com.example.bankingsystem.jwt.AuthResponse;
+import com.example.bankingsystem.jwt.JwtService;
 import com.example.bankingsystem.mapper.UserInDTOToUser;
-import com.example.bankingsystem.payload.repositories.UserRepository;
+import com.example.bankingsystem.repositories.UserRepository;
 import com.example.bankingsystem.services.UserService;
 import com.example.bankingsystem.services.dto.UserInDTO;
 import lombok.RequiredArgsConstructor;
@@ -22,20 +24,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final UserInDTOToUser userInDTOToUser;
-
-    @Override
-    public ResponseEntity<User> createUser(UserInDTO userInDTO) {
-
-        if (userRepository.findByDni(userInDTO.getDni()).isPresent()) {
-            throw new ResourceConflictException(String.format("El DNI: %s ya está registrado en el sistema", userInDTO.getDni()));
-        }
-
-        if (userRepository.findByEmail(userInDTO.getEmail()).isPresent()) {
-            throw new ResourceConflictException(String.format("El email: %s ya está registrado en el sistema", userInDTO.getEmail()));
-        }
-        return ResponseEntity.ok(userRepository.save(userInDTOToUser.map(userInDTO)));
-    }
 
     @Override
     @Transactional

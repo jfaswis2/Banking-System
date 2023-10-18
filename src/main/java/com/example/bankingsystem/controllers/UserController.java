@@ -1,5 +1,6 @@
 package com.example.bankingsystem.controllers;
 
+import com.example.bankingsystem.jwt.AuthResponse;
 import com.example.bankingsystem.services.dto.UserInDTO;
 import com.example.bankingsystem.services.impl.UserServiceImpl;
 import jakarta.validation.Valid;
@@ -15,11 +16,6 @@ import java.time.LocalDate;
 public class UserController {
 
     private final UserServiceImpl userService;
-
-    @PostMapping("/user")
-    public ResponseEntity<?> createUser(@RequestBody @Valid UserInDTO userInDTO) {
-        return userService.createUser(userInDTO);
-    }
 
     @PutMapping("/{userId}")
     public ResponseEntity<?> updateUser(@PathVariable("userId") Long userId,

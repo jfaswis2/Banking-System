@@ -3,6 +3,7 @@ package com.example.bankingsystem;
 import com.example.bankingsystem.entities.Checking;
 import com.example.bankingsystem.entities.Saving;
 import com.example.bankingsystem.entities.User;
+import com.example.bankingsystem.enums.Role;
 import com.example.bankingsystem.enums.Status;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -63,7 +64,7 @@ public class EntityUnitTest {
     testEntityManager.persistAndFlush(s1);
     Saving saving = testEntityManager.find(Saving.class, s1.getId());
     checkSavingData(s1, saving);
-}
+    }
 
     @Test
     public void should_save_a_saving_account_with_constructor() {
@@ -76,6 +77,7 @@ public class EntityUnitTest {
                 LocalDate.of(1997, 3, 2),
                 LocalDate.now(),
                 false,
+                Role.USER,
                 checkings,
                 savings);
         testEntityManager.persistAndFlush(u1);
@@ -120,6 +122,7 @@ public class EntityUnitTest {
                 LocalDate.of(1997, 3, 2),
                 LocalDate.now(),
                 false,
+                Role.USER,
                 checkings,
                 savings);
 
@@ -154,6 +157,7 @@ public class EntityUnitTest {
                 LocalDate.of(1997, 3, 2),
                 LocalDate.now(),
                 false,
+                Role.USER,
                 checkings,
                 savings);
         testEntityManager.persistAndFlush(u1);
@@ -198,6 +202,7 @@ public class EntityUnitTest {
                 LocalDate.of(1997, 3, 2),
                 LocalDate.now(),
                 false,
+                Role.USER,
                 checkings,
                 savings);
 
@@ -261,6 +266,7 @@ public class EntityUnitTest {
         u1.setDateOfBirth(LocalDate.of(1997,3,2));
         u1.setCheckings(checkings);
         u1.setSavings(savings);
+        u1.setRole(Role.USER);
 
         checkings.add(c1);
         savings.add(s1);
@@ -283,6 +289,7 @@ public class EntityUnitTest {
                 LocalDate.of(1997, 3, 2),
                 LocalDate.now(),
                 false,
+                Role.USER,
                 checkings,
                 savings);
 
@@ -307,6 +314,7 @@ public class EntityUnitTest {
                 .dateOfBirth(LocalDate.of(1997,3,2))
                 .creationDate(LocalDate.now())
                 .deleted(false)
+                .role(Role.USER)
                 .checkings(checkings)
                 .savings(savings).build();
 
@@ -329,6 +337,7 @@ public class EntityUnitTest {
         assertThat(u1.getEmail()).isEqualTo(u2.getEmail());
         assertThat(u1.getDateOfBirth()).isEqualTo(u2.getDateOfBirth());
         assertThat(u1.isDeleted()).isEqualTo(u2.isDeleted());
+        assertThat(u1.getRole()).isEqualTo(u2.getRole());
         assertEquals(u1.getCheckings(), u2.getCheckings());
         assertEquals(u1.getSavings(), u2.getSavings());
     }
