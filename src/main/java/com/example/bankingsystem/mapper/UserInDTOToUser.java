@@ -1,6 +1,7 @@
 package com.example.bankingsystem.mapper;
 
 import com.example.bankingsystem.entities.User;
+import com.example.bankingsystem.enums.Role;
 import com.example.bankingsystem.services.dto.UserInDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +25,7 @@ public class UserInDTOToUser implements IMapper<UserInDTO, User>{
                 .dateOfBirth(in.getDateOfBirth())
                 .password(passwordEncoder.encode(in.getPassword()))
                 .deleted(false)
+                .role(Role.USER)
                 .creationDate(LocalDate.now()).build();
 
         return user;

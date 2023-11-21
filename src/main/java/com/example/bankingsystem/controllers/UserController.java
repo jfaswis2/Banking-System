@@ -1,9 +1,7 @@
 package com.example.bankingsystem.controllers;
 
-import com.example.bankingsystem.jwt.AuthResponse;
-import com.example.bankingsystem.services.dto.UserInDTO;
 import com.example.bankingsystem.services.impl.UserServiceImpl;
-import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +25,10 @@ public class UserController {
         return userService.updateUser(userId, name, lastName, dni, email, dateOfBirth);
     }
 
-    @GetMapping("/user/{id}")
-    public ResponseEntity<?> showById(@PathVariable Long id) {
-        return userService.showById(id);
+    @GetMapping("/user")
+    public ResponseEntity<?> showUser(HttpServletRequest request) {
+        String email = (String) request.getAttribute("email");
+        return userService.showUser(email);
     }
 
     @GetMapping("/users")
@@ -37,8 +36,8 @@ public class UserController {
         return userService.showALl();
     }
 
-    @DeleteMapping("/user/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        return userService.deleteUser(id);
+    @DeleteMapping("/user")
+    public ResponseEntity<?> deleteUser(@RequestHeader("Authorization") String token) {
+        return userService.deleteUser(token);
     }
 }

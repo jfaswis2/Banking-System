@@ -40,6 +40,7 @@ public class User implements UserDetails {
     @Column(name = "deleted")
     private boolean deleted;
     @Column(name = "role")
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @Column(name = "checkings")

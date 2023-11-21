@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    public ResponseEntity<User> showById(Long id);
+    public ResponseEntity<User> showUser(String token);
     public ResponseEntity<List<User>> showALl();
     public ResponseEntity<User> updateUser(Long userId,
                                            String name,
@@ -18,5 +18,5 @@ public interface UserService {
                                            String dni,
                                            String email,
                                            LocalDate dateOfBirth);
-    public ResponseEntity<?> deleteUser(Long id);
+    public ResponseEntity<?> deleteUser(String token);
 }

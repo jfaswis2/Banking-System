@@ -46,6 +46,4 @@ public class ApplicationConfig {
         return username -> userRepository.findByEmail(username)
                 .orElseThrow(() -> new ResourceNotFoundException("user", "email", username));
     }
-
-
 }

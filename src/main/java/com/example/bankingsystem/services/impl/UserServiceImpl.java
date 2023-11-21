@@ -4,6 +4,7 @@ import com.example.bankingsystem.entities.User;
 import com.example.bankingsystem.exception.ResourceConflictException;
 import com.example.bankingsystem.exception.ResourceNotFoundException;
 import com.example.bankingsystem.jwt.AuthResponse;
+import com.example.bankingsystem.jwt.JwtInterceptor;
 import com.example.bankingsystem.jwt.JwtService;
 import com.example.bankingsystem.mapper.UserInDTOToUser;
 import com.example.bankingsystem.repositories.UserRepository;
@@ -12,9 +13,13 @@ import com.example.bankingsystem.services.dto.UserInDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +29,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final JwtService jwtService;
+
+    private final JwtInterceptor jwtInterceptor;
 
     @Override
     @Transactional
@@ -78,19 +86,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<Void> deleteUser(Long id) {
-        User user = userRepository.findByIdAndDeletedFalse(id)
-                .orElseThrow(()-> new ResourceNotFoundException("user", "id", id));
+    public ResponseEntity<Void> deleteUser(String token) {//Antes daba error porque no estaba bien extraído el token
+
+        User user = userRepository.findByEmail(jwtService.getUsernameFromToken(jwtInterceptor.extractAuthToken(token)))
+                .orElseThrow(()-> new ResourceNotFoundException("user", "id", jwtService.getUsernameFromToken(token)));
 
         user.setDeleted(true);
         userRepository.save(user);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);//Todo CAMBIAR TIPO DE RETORNO, NO DEBE DEVOLVER ResponseEntity
     }
 
     @Override
-    public ResponseEntity<User> showById(Long id) {
-        User user = userRepository.findByIdAndDeletedFalse(id)
-                .orElseThrow(() -> new ResourceNotFoundException("user", "id", id));
+    public ResponseEntity<User> showUser(String token) {
+        User user = userRepository.findByEmail(token)
+                .orElseThrow(() -> new ResourceNotFoundException("user", "id", token));
+
         return ResponseEntity.ok(user);
     }
 
